@@ -26,17 +26,7 @@
 							t_1
 						</td>
 						<td>
-							<span>获取rtsp流，帧图片保存</span>
-						</td>
-						<td>
-						</td>
-					</tr>
-					<tr class="success">
-						<td>
-							t_2
-						</td>
-						<td>
-							获取rtsp流，帧图片弹窗显示
+							<span>mlp训练mnist</span>
 						</td>
 						<td>
 						</td>
