@@ -4,7 +4,7 @@
 	<div class="row">
 		<div class="span4">
 			<h3>
-				javacv
+				keras
 			</h3>
 			<table class="table table-condensed table-hover">
 				<thead>
