@@ -31,6 +31,36 @@
 						<td>
 						</td>
 					</tr>
+                  					<tr>
+						<td>
+							t_2
+						</td>
+						<td>
+							<span>cnn训练mnist</span>
+						</td>
+						<td>
+						</td>
+					</tr>
+                  					<tr>
+						<td>
+							t_3
+						</td>
+						<td>
+							<span>mlp多类别分类</span>
+						</td>
+						<td>
+						</td>
+					</tr>
+                  					<tr>
+						<td>
+							t_4
+						</td>
+						<td>
+							<span>泰坦尼克号乘客生存率预测</span>
+						</td>
+						<td>
+						</td>
+					</tr>
 				</tbody>
 			</table>
 		</div>
