@@ -69,8 +69,60 @@ test_df = all_df[~msk]
 #分别预处理
 train_feature,train_label = preDo(train_df)
 test_feature,test_label = preDo(test_df)
-print('train_feature:',train_feature.shape)
-print('train_label:',train_label)
-print('test_feature:',test_feature.shape)
-print('test_label:',test_label)
+print('------------------------------------')
+print('train_feature:',train_feature.shape) #(1064, 9)
+print('train_label:',train_label.shape) #(1064,)
+print('------------------------------------')
+print('test_feature:',test_feature.shape)   #(245, 9)
+print('test_label:',test_label.shape)   #(245,)
+print('------------------------------------')
 
+#拼接网络
+model = Sequential()
+model.add(Dense(units=40,input_dim=9,kernel_initializer='uniform',activation='relu'))
+model.add(Dense(units=30,kernel_initializer='uniform',activation='relu'))
+model.add(Dense(units=1,kernel_initializer='uniform',activation='sigmoid')) #输出层是1维 生还是/否
+print(model.summary())
+
+model.compile(loss='binary_crossentropy',optimizer='adam',metrics=['accuracy'])
+train_history = model.fit(x=train_feature,y=train_label,validation_split=0.1,epochs=30,batch_size=30,verbose=2)
+
+def show_train_history(train_history,train,validation):
+    plt.plot(train_history.history[train])          #train(训练准确率)这条线
+    plt.plot(train_history.history[validation])     #validation(验证准确率)这条线
+    plt.title('train history')
+    plt.ylabel(train)
+    plt.xlabel('Epoch')
+    plt.legend(['train','validation'],loc='upper left')
+    plt.show()
+
+#训练集准确率 误差率
+show_train_history(train_history,'acc','val_acc')
+show_train_history(train_history,'loss','val_loss')
+#测试集准确率 误差率
+scores = model.evaluate(test_feature,test_label,verbose=0)
+print('scores:',scores[1])  #0.7656903778159968
+
+#预测
+prediction = model.predict_classes(test_feature)
+#手算错误率
+a = 0.0
+for i in range(1,len(test_label)):
+    if prediction[i]==test_label[i]:
+        a = a +1
+print('正确率:'+str(a/(len(test_label))))   #0.7647058823529411
+print('错误率:'+str(1-a/(len(test_label))))   #0.23529411764705882
+
+
+#构造Jack、Rose数据
+Jack = pd.Series([0,'Jack',3,'male',23,1,0,5.0000,'S'])
+Rose = pd.Series([1,'Rose',1,'female',20,1,0,100.0000,'S'])
+JR_df = pd.DataFrame([list(Jack),list(Rose)],columns=['survived','name','pclass','sex','age','sibsp','parch','fare','embarked'])
+#新数据拼接到老数据中
+all_df = pd.concat([all_df,JR_df])
+#查看倒数两项新数据
+print('new:',all_df[-2:])
+all_feature,label=preDo(all_df)
+all_probability = model.predict(all_feature)
+print('前10个样本生存概率:')
+print(all_probability[:10])
